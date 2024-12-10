@@ -25,16 +25,33 @@ public class main {
         return Base64.getEncoder().encodeToString(hashBytes);
     }
 
-    
+    /**
+     * Function to return a Boolean indicating whether a given string matches a given
+hash with a given algorithm.
+     *
+     * @param input     The input to check
+     * @param hashedValue The hashed to compare
+     * @param algorithm   The hashed use
+     * @return True if the input matches false if not
+     * @throws NoSuchAlgorithmException error
+     */
+    public static boolean verifyHash(String input, String hashedValue, HashAlgorithm algorithm) throws NoSuchAlgorithmException {
+        String computedHash = hashString(input, algorithm);
+        return computedHash.equals(hashedValue);
+    }
 
     public static void main(String[] args) {
         try {
             
             String input = "HelloWorld";
 
-            // Hash the string
+            // Hash 
             String hashedValue = hashString(input, HashAlgorithm.SHA256);
             System.out.println("Hashed Value (SHA-256): " + hashedValue);
+
+            // Verify the hash
+            boolean isVerified = verifyHash(input, hashedValue, HashAlgorithm.SHA256);
+            System.out.println("Verification Result: " + isVerified);
 
             
         } catch (NoSuchAlgorithmException e) {
