@@ -40,10 +40,25 @@ hash with a given algorithm.
         return computedHash.equals(hashedValue);
     }
 
+    /**
+     * generate a salted hash of a given string input, string salt, and enumerated hashing algorithm.
+     *
+     * @param input     The input hash.
+     * @param salt      The salt to append
+     * @param algorithm The hashing algorithm
+     * @return The salted hash as a Base64-encoded 
+     * @throws NoSuchAlgorithmException Error
+     */
+    public static String generateSaltedHash(String input, String salt, HashAlgorithm algorithm) throws NoSuchAlgorithmException {
+        String saltedInput = input + salt;
+        return hashString(saltedInput, algorithm);
+    }
+
     public static void main(String[] args) {
         try {
             
             String input = "HelloWorld";
+            String salt = "RandomSalt";
 
             // Hash 
             String hashedValue = hashString(input, HashAlgorithm.SHA256);
@@ -52,6 +67,10 @@ hash with a given algorithm.
             // Verify the hash
             boolean isVerified = verifyHash(input, hashedValue, HashAlgorithm.SHA256);
             System.out.println("Verification Result: " + isVerified);
+
+            // Generate salted hash
+            String saltedHash = generateSaltedHash(input, salt, HashAlgorithm.SHA256);
+            System.out.println("Salted Hash (SHA-256): " + saltedHash);
 
             
         } catch (NoSuchAlgorithmException e) {
